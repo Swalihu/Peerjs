@@ -19,21 +19,26 @@ io.on('connection', (socket) => {
   // When a user sets their display name
   socket.on('setDisplayName', (displayName) => {
     users[socket.id] = displayName;
+    console.log(`${displayName} connected.`);
   });
 
-  // When a user sends a chat message
+  // When a user sends a chat message (for future enhancement)
   socket.on('chatMessage', (message) => {
-    // Broadcast the message to all connected peers (including sender)
-    io.emit('chatMessage', { sender: users[socket.id], message });
+    // Currently, this server does not handle chat messages
+    // You can add chat functionality here if desired
   });
 
   // When a user disconnects
   socket.on('disconnect', () => {
-    console.log('A user disconnected: ', socket.id);
-    delete users[socket.id];
+    if (users[socket.id]) {
+      console.log(`${users[socket.id]} disconnected.`);
+      delete users[socket.id];
+    }
   });
 });
 
-server.listen(3000, () => {
-  console.log('Server listening on port 3000');
+const port = 3000;
+server.listen(port, () => {
+  console.log(`Server listening on port ${port}`);
 });
+￼Enter
